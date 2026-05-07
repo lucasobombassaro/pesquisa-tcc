@@ -293,6 +293,12 @@
         <div class="authors-names">Lucas Bombassaro &amp; Luiza Salles Reis</div>
         <div class="authors-role">Estudantes de Administração · PUC Minas · Belo Horizonte</div>
       </div>
+      <div style="text-align:center;margin-top:20px">
+        <button class="btn-ghost" style="font-size:12px;color:var(--text3);gap:5px;display:inline-flex;align-items:center" onclick="document.getElementById('admin-modal').style.display='flex'">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Painel administrativo
+        </button>
+      </div>
     </div>
   </div>
 
@@ -369,6 +375,18 @@
 
 </div>
 
+<!-- MODAL ADMIN -->
+<div class="overlay" id="admin-modal" style="display:none" onclick="if(event.target===this)this.style.display='none'">
+  <div class="modal">
+    <h3 class="h2" style="margin-bottom:4px">Painel administrativo</h3>
+    <p class="body" style="font-size:13px;line-height:1.38;margin-bottom:16px">Acesso restrito a pesquisadores.</p>
+    <input class="t-input" type="password" id="admin-pw" placeholder="Senha"
+      onkeydown="if(event.key==='Enter')adminAuth()" style="margin-bottom:6px" />
+    <p class="err-txt" id="admin-pw-err">Senha incorreta.</p>
+    <button class="btn" style="margin-top:4px" onclick="adminAuth()">Entrar</button>
+  </div>
+</div>
+
 <!-- MODAL -->
 <div class="overlay" id="modal" style="display:none">
   <div class="modal">
@@ -386,6 +404,16 @@
 const SB_URL  = 'https://wehpbpczgjxhjievamnz.supabase.co';
 const SB_KEY  = 'sb_publishable_bY-yOvgZcZ3QM0MUjZxUlg_9onwMIvT';
 const ADM_PW  = 'tcc2025puc';
+const ADMIN_PW = 'Lucas&Luiza';
+function adminAuth(){
+  if(document.getElementById('admin-pw').value===ADMIN_PW){
+    window.location.href='/admin';
+  } else {
+    document.getElementById('admin-pw-err').style.display='block';
+    document.getElementById('admin-pw').value='';
+    document.getElementById('admin-pw').focus();
+  }
+}
 
 /* ══ FILTRO ANTI-SPAM ══ */
 const BAD_WORDS = ['merda','porra','caralho','buceta','puta','viado','corno','otário','idiota','imbecil','cretino','babaca','arrombado','fdp','vsf','fuck','shit','bitch','damn','crap'];
