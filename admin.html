@@ -45,47 +45,7 @@
         radial-gradient(ellipse 60% 40% at 80% 110%, rgba(52,199,89,0.05) 0%,transparent 60%);
     }
 
-    /* ── LOGIN ── */
-    #overlay {
-      position:fixed; inset:0; z-index:1000;
-      background:rgba(0,0,0,0.45);
-      backdrop-filter:blur(18px) saturate(180%);
-      display:flex; align-items:center; justify-content:center;
-    }
-    .login-card {
-      background:var(--solid); border-radius:var(--r-lg);
-      padding:40px 32px 32px; width:min(360px,90vw);
-      box-shadow:var(--shadow-lg); text-align:center;
-    }
-    .login-icon {
-      width:60px; height:60px; border-radius:18px;
-      background:var(--blue-lt); display:flex;
-      align-items:center; justify-content:center;
-      font-size:28px; margin:0 auto 18px;
-    }
-    .login-title { font-size:20px; font-weight:700; margin-bottom:4px; }
-    .login-sub   { font-size:13px; color:var(--text2); margin-bottom:24px; line-height:1.5; }
-    .t-input {
-      width:100%; padding:13px 16px;
-      border:1.5px solid var(--border); border-radius:var(--r-sm);
-      font-family:inherit; font-size:15px;
-      background:var(--bg); color:var(--text); outline:none;
-      transition:border-color .2s;
-    }
-    .t-input:focus { border-color:var(--blue); }
-    .btn {
-      width:100%; padding:13px 24px; margin-top:12px;
-      background:var(--blue); color:#fff;
-      border:none; border-radius:var(--r-sm);
-      font-family:inherit; font-size:15px; font-weight:600;
-      cursor:pointer; transition:background .2s, transform .1s;
-    }
-    .btn:hover  { background:var(--blue-h); }
-    .btn:active { transform:scale(.98); }
-    .pw-err { font-size:12px; color:var(--red); margin-top:8px; display:none; }
-
     /* ── HEADER ── */
-    #app { display:none; position:relative; z-index:1; }
     .header {
       position:sticky; top:0; z-index:100;
       background:rgba(242,242,247,0.9);
@@ -120,7 +80,6 @@
       padding:20px 20px 0;
       display:grid; grid-template-columns:repeat(3,1fr); gap:12px;
     }
-    @media(max-width:520px){ .stats{ grid-template-columns:repeat(3,1fr); gap:8px; } }
     .stat-card {
       background:var(--surface); border:1px solid var(--border);
       border-radius:var(--r-md); padding:16px;
@@ -132,7 +91,80 @@
     .stat-card.green  .stat-num { color:var(--green); }
     .stat-card.orange .stat-num { color:#ff9500; }
 
-    /* ── NEW NOTIF ── */
+    /* ── META / GAMIFICAÇÃO ── */
+    .meta-card {
+      max-width:860px; margin:12px auto 0;
+      padding:0 20px;
+    }
+    .meta-inner {
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:var(--r-md); padding:18px 20px;
+      box-shadow:var(--shadow); backdrop-filter:blur(10px);
+    }
+    .meta-top {
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom:10px;
+    }
+    .meta-title { font-size:13px; font-weight:600; color:var(--text2); }
+    .meta-count {
+      font-size:13px; font-weight:700;
+    }
+    .meta-count .cur { color:var(--blue); font-size:20px; }
+    .meta-count .sep { color:var(--text3); margin:0 2px; }
+    .meta-count .goal { color:var(--text3); }
+
+    .prog-track {
+      height:8px; background:rgba(0,0,0,0.07);
+      border-radius:4px; overflow:hidden; margin-bottom:10px;
+    }
+    .prog-fill {
+      height:100%;
+      background:linear-gradient(90deg, var(--blue) 0%, var(--green) 100%);
+      border-radius:4px;
+      transition:width .8s var(--ease);
+      position:relative;
+    }
+    .prog-fill::after {
+      content:'';
+      position:absolute; right:0; top:0; bottom:0;
+      width:4px; border-radius:2px;
+      background:rgba(255,255,255,0.5);
+      animation:shimmer 1.5s ease-in-out infinite;
+    }
+    @keyframes shimmer { 0%,100%{opacity:0} 50%{opacity:1} }
+
+    .meta-milestones {
+      display:flex; gap:0; position:relative;
+      margin-bottom:8px;
+    }
+    .milestone {
+      flex:1; display:flex; flex-direction:column; align-items:center;
+      position:relative;
+    }
+    .milestone-dot {
+      width:10px; height:10px; border-radius:50%;
+      border:2px solid var(--border);
+      background:var(--bg);
+      margin-bottom:4px;
+      transition:all .4s var(--ease);
+    }
+    .milestone.done .milestone-dot {
+      background:var(--green); border-color:var(--green);
+      box-shadow:0 0 0 3px var(--green-lt);
+    }
+    .milestone-label {
+      font-size:10px; color:var(--text3); font-weight:500;
+      white-space:nowrap;
+    }
+    .milestone.done .milestone-label { color:var(--green); font-weight:600; }
+
+    .meta-msg {
+      font-size:12px; color:var(--text2); font-weight:500;
+      text-align:center; padding-top:4px;
+    }
+    .meta-msg strong { color:var(--blue); }
+
+    /* ── NOTIF ── */
     .notif {
       display:none; position:fixed; top:68px; left:50%;
       transform:translateX(-50%);
@@ -141,9 +173,8 @@
       font-size:13px; font-weight:600;
       box-shadow:0 4px 20px rgba(0,113,227,.45);
       z-index:300; cursor:pointer;
-      animation:popIn .3s var(--ease);
     }
-    .notif.show { display:block; }
+    .notif.show { display:block; animation:popIn .3s var(--ease); }
     @keyframes popIn { from{opacity:0;transform:translateX(-50%) scale(.9)} to{opacity:1;transform:translateX(-50%) scale(1)} }
 
     /* ── CONTROLS ── */
@@ -163,17 +194,7 @@
     }
     .search-input:focus { border-color:var(--blue); }
 
-    .sort-btn {
-      padding:9px 14px;
-      border:1.5px solid var(--border); border-radius:var(--r-sm);
-      background:var(--solid); font-family:inherit;
-      font-size:13px; font-weight:500; color:var(--text2);
-      cursor:pointer; transition:all .15s;
-      white-space:nowrap;
-    }
-    .sort-btn:hover { border-color:var(--blue); color:var(--blue); }
-
-    /* ── TABLE ── */
+    /* ── LIST ── */
     .list-wrap {
       max-width:860px; margin:0 auto;
       padding:0 20px 80px;
@@ -197,11 +218,29 @@
     @keyframes cardIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
     .resp-card:hover { transform:translateY(-1px); }
     .resp-card.new-glow { box-shadow:0 0 0 2px var(--blue), var(--shadow); }
+    .resp-card.latest {
+      border-color:rgba(0,113,227,0.35);
+      background:linear-gradient(135deg, rgba(0,113,227,0.06) 0%, rgba(255,255,255,0.9) 100%);
+    }
+    .latest-badge {
+      display:inline-flex; align-items:center; gap:4px;
+      padding:3px 8px; border-radius:20px;
+      font-size:10px; font-weight:700; letter-spacing:.3px;
+      background:var(--blue); color:#fff;
+      margin-bottom:5px; text-transform:uppercase;
+    }
+    .latest-time {
+      font-size:11px; color:var(--blue); font-weight:600;
+    }
 
     .avatar {
       width:42px; height:42px; border-radius:50%;
       display:flex; align-items:center; justify-content:center;
       font-size:15px; font-weight:700; color:#fff; flex-shrink:0;
+    }
+    .r-num {
+      font-size:10px; font-weight:700; color:var(--text3);
+      text-align:center; margin-top:3px; letter-spacing:.3px;
     }
     .r-name  { font-size:15px; font-weight:600; margin-bottom:2px; }
     .r-email { font-size:12px; color:var(--text2); }
@@ -238,62 +277,81 @@
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="overlay">
-  <div class="login-card">
-    <div class="login-icon">📋</div>
-    <div class="login-title">Painel de Respostas</div>
-    <div class="login-sub">Pesquisa TCC · Empreendedorismo Jovem em BH</div>
-    <input class="t-input" type="password" id="pw" placeholder="Senha de acesso"
-      onkeydown="if(event.key==='Enter')auth()" />
-    <p class="pw-err" id="pw-err">Senha incorreta.</p>
-    <button class="btn" onclick="auth()">Entrar</button>
+<div class="header">
+  <div class="header-inner">
+    <div class="header-title">Respostas <span>·</span> TCC</div>
+    <div class="live-pill off" id="live-pill">
+      <span class="live-dot"></span>
+      <span id="live-label">Conectando...</span>
+    </div>
   </div>
 </div>
 
-<!-- APP -->
-<div id="app">
-  <div class="header">
-    <div class="header-inner">
-      <div class="header-title">Respostas <span>·</span> TCC</div>
-      <div class="live-pill off" id="live-pill">
-        <span class="live-dot"></span>
-        <span id="live-label">Conectando...</span>
+<div class="notif" id="notif" onclick="this.classList.remove('show')"></div>
+
+<div class="stats">
+  <div class="stat-card blue">
+    <div class="stat-num" id="s-total">—</div>
+    <div class="stat-label">Total</div>
+  </div>
+  <div class="stat-card green">
+    <div class="stat-num" id="s-today">—</div>
+    <div class="stat-label">Hoje</div>
+  </div>
+  <div class="stat-card orange">
+    <div class="stat-num" id="s-week">—</div>
+    <div class="stat-label">Esta semana</div>
+  </div>
+</div>
+
+<!-- META 150 -->
+<div class="meta-card">
+  <div class="meta-inner">
+    <div class="meta-top">
+      <div class="meta-title">Meta da pesquisa</div>
+      <div class="meta-count">
+        <span class="cur" id="m-cur">0</span>
+        <span class="sep">/</span>
+        <span class="goal">150 respostas</span>
       </div>
     </div>
-  </div>
-
-  <div class="notif" id="notif" onclick="this.classList.remove('show')"></div>
-
-  <div class="stats">
-    <div class="stat-card blue">
-      <div class="stat-num" id="s-total">—</div>
-      <div class="stat-label">Total</div>
+    <div class="prog-track">
+      <div class="prog-fill" id="m-fill" style="width:0%"></div>
     </div>
-    <div class="stat-card green">
-      <div class="stat-num" id="s-today">—</div>
-      <div class="stat-label">Hoje</div>
+    <div class="meta-milestones">
+      <div class="milestone" id="ms-25">
+        <div class="milestone-dot"></div>
+        <div class="milestone-label">25%</div>
+      </div>
+      <div class="milestone" id="ms-50">
+        <div class="milestone-dot"></div>
+        <div class="milestone-label">50%</div>
+      </div>
+      <div class="milestone" id="ms-75">
+        <div class="milestone-dot"></div>
+        <div class="milestone-label">75%</div>
+      </div>
+      <div class="milestone" id="ms-100">
+        <div class="milestone-dot"></div>
+        <div class="milestone-label">100%</div>
+      </div>
     </div>
-    <div class="stat-card orange">
-      <div class="stat-num" id="s-week">—</div>
-      <div class="stat-label">Esta semana</div>
-    </div>
+    <div class="meta-msg" id="m-msg"></div>
   </div>
+</div>
 
-  <div class="controls">
-    <div class="search-wrap">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-      </svg>
-      <input class="search-input" id="search" placeholder="Buscar por nome ou e-mail..." oninput="render()" />
-    </div>
-    <button class="sort-btn" onclick="toggleSort()">⇅ <span id="sort-label">Mais recente</span></button>
+<div class="controls">
+  <div class="search-wrap">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    <input class="search-input" id="search" placeholder="Buscar por nome ou e-mail..." oninput="render()" />
   </div>
+</div>
 
-  <div class="list-wrap">
-    <div class="list-label" id="list-label">Carregando...</div>
-    <div id="list"></div>
-  </div>
+<div class="list-wrap">
+  <div class="list-label" id="list-label">Carregando...</div>
+  <div id="list"></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -301,37 +359,25 @@
 <script>
 const SB_URL = 'https://wehpbpczgjxhjievamnz.supabase.co';
 const SB_KEY = 'sb_publishable_bY-yOvgZcZ3QM0MUjZxUlg_9onwMIvT';
-const ADM_PW = 'Lucas' + String.fromCharCode(38) + 'Luiza';
+const GOAL   = 150;
 
-let sb, rows = [], sortDesc = true;
+let sb, rows = [];
 
 const COLORS = ['#0071e3','#34c759','#ff9500','#af52de','#ff3b30','#5ac8fa','#30b0c7','#ff6b35'];
 const avatarColor = n => COLORS[(n||'?').charCodeAt(0) % COLORS.length];
 const initials    = n => (n||'?').trim().split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase();
 
-/* AUTH */
-function auth(){
-  if(document.getElementById('pw').value === ADM_PW){
-    document.getElementById('overlay').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    init();
-  } else {
-    document.getElementById('pw-err').style.display = 'block';
-    document.getElementById('pw').value = '';
-    document.getElementById('pw').focus();
-  }
-}
-
 async function init(){
   sb = window.supabase.createClient(SB_URL, SB_KEY);
-  const { data } = await sb.from('respostas').select('id,nome,email,created_at,idade,genero,area_atuacao,tempo_empreendedor').order('created_at', { ascending: false });
+  const { data } = await sb.from('respostas')
+    .select('id,nome,email,created_at,idade,genero,area_atuacao')
+    .order('created_at', { ascending: false });
   rows = data || [];
   updateStats();
   render();
   setupRealtime();
 }
 
-/* REALTIME */
 function setupRealtime(){
   const pill  = document.getElementById('live-pill');
   const label = document.getElementById('live-label');
@@ -341,7 +387,6 @@ function setupRealtime(){
       rows.unshift(p.new);
       updateStats(); render();
       showNotif(p.new);
-      // highlight newest card briefly
       setTimeout(() => {
         const el = document.querySelector('.resp-card');
         if(el){ el.classList.add('new-glow'); setTimeout(()=>el.classList.remove('new-glow'), 3000); }
@@ -358,55 +403,62 @@ function setupRealtime(){
 
 function showNotif(r){
   const el = document.getElementById('notif');
-  el.textContent = `✓ ${r.nome || 'Alguém'} acabou de responder!`;
+  el.textContent = '✓ ' + (r.nome || 'Alguém') + ' acabou de responder!';
   el.classList.add('show');
   setTimeout(() => el.classList.remove('show'), 5000);
 }
 
-/* STATS */
 function updateStats(){
-  const now   = new Date();
-  const today = now.toISOString().slice(0,10);
+  const n       = rows.length;
+  const now     = new Date();
+  const today   = now.toISOString().slice(0,10);
   const weekAgo = new Date(now - 7*864e5).toISOString();
+  const pct     = Math.min(Math.round(n / GOAL * 100), 100);
+  const left    = GOAL - n;
 
-  document.getElementById('s-total').textContent = rows.length;
+  document.getElementById('s-total').textContent = n;
   document.getElementById('s-today').textContent = rows.filter(r => (r.created_at||'').startsWith(today)).length;
   document.getElementById('s-week').textContent  = rows.filter(r => r.created_at >= weekAgo).length;
-}
 
-/* SORT */
-function toggleSort(){
-  sortDesc = !sortDesc;
-  document.getElementById('sort-label').textContent = sortDesc ? 'Mais recente' : 'Mais antigo';
-  render();
-}
+  // meta
+  document.getElementById('m-cur').textContent        = n;
+  document.getElementById('m-fill').style.width       = pct + '%';
 
-/* RENDER */
-function render(){
-  const q = (document.getElementById('search').value || '').toLowerCase();
-  let items = rows.filter(r =>
-    !q ||
-    (r.nome  || '').toLowerCase().includes(q) ||
-    (r.email || '').toLowerCase().includes(q)
-  );
-
-  items = [...items].sort((a,b) => {
-    const d = new Date(a.created_at) - new Date(b.created_at);
-    return sortDesc ? -d : d;
+  // milestones
+  [['ms-25',25],['ms-50',50],['ms-75',75],['ms-100',100]].forEach(([id,p])=>{
+    document.getElementById(id).classList.toggle('done', pct >= p);
   });
 
+  // message
+  let msg;
+  if(n === 0)        msg = 'Nenhuma resposta ainda. Compartilhe o link!';
+  else if(left > 0)  msg = 'Faltam <strong>' + left + '</strong> para atingir a meta de 150.';
+  else               msg = '🎉 Meta atingida! Parabéns!';
+  document.getElementById('m-msg').innerHTML = msg;
+}
+
+function render(){
+  const q = (document.getElementById('search').value || '').toLowerCase();
+
+  // sempre mais recente primeiro
+  const items = [...rows]
+    .sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
+    .filter(r =>
+      !q ||
+      (r.nome  || '').toLowerCase().includes(q) ||
+      (r.email || '').toLowerCase().includes(q)
+    );
+
   document.getElementById('list-label').textContent =
-    `${items.length} resposta${items.length !== 1 ? 's' : ''}`;
+    items.length + ' resposta' + (items.length !== 1 ? 's' : '');
 
   const listEl = document.getElementById('list');
   if(!items.length){
-    listEl.innerHTML = `
-      <div class="empty">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M9 12h6m-3-3v6"/><rect x="3" y="3" width="18" height="18" rx="4"/>
-        </svg>
-        <p>${rows.length ? 'Nenhum resultado para a busca.' : 'Nenhuma resposta recebida ainda.'}</p>
-      </div>`;
+    listEl.innerHTML =
+      '<div class="empty">' +
+        '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12h6m-3-3v6"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg>' +
+        '<p>' + (rows.length ? 'Nenhum resultado para a busca.' : 'Nenhuma resposta recebida ainda.') + '</p>' +
+      '</div>';
     return;
   }
 
@@ -414,23 +466,29 @@ function render(){
     const color = avatarColor(r.nome);
     const ini   = initials(r.nome);
     const meta  = [r.idade, r.genero, r.area_atuacao].filter(Boolean).join(' · ');
-    return `
-      <div class="resp-card" style="animation-delay:${Math.min(i,15)*18}ms">
-        <div class="avatar" style="background:${color}">${ini}</div>
-        <div>
-          <div class="r-name">${esc(r.nome || '—')}</div>
-          <div class="r-email">${esc(r.email || '—')}</div>
-          ${meta ? `<div class="r-meta">${esc(meta)}</div>` : ''}
-        </div>
-        <div class="r-right">
-          <div class="badge-ok">✓ Respondeu</div>
-          <div class="r-date">${fmtDate(r.created_at)}</div>
-        </div>
-      </div>`;
+    const num     = rows.length - rows.indexOf(r);
+    const isFirst = i === 0;
+    return (
+      '<div class="resp-card' + (isFirst ? ' latest' : '') + '" style="animation-delay:' + Math.min(i,15)*18 + 'ms">' +
+        '<div>' +
+          '<div class="avatar" style="background:' + color + '">' + ini + '</div>' +
+          '<div class="r-num">#' + num + '</div>' +
+        '</div>' +
+        '<div>' +
+          (isFirst ? '<div class="latest-badge">Última resposta</div>' : '') +
+          '<div class="r-name">' + esc(r.nome || '—') + '</div>' +
+          '<div class="r-email">' + esc(r.email || '—') + '</div>' +
+          (meta ? '<div class="r-meta">' + esc(meta) + '</div>' : '') +
+        '</div>' +
+        '<div class="r-right">' +
+          '<div class="badge-ok">✓ Respondeu</div>' +
+          '<div class="r-date ' + (isFirst ? 'latest-time' : '') + '">' + fmtDate(r.created_at) + '</div>' +
+        '</div>' +
+      '</div>'
+    );
   }).join('');
 }
 
-/* HELPERS */
 function fmtDate(iso){
   if(!iso) return '—';
   return new Date(iso).toLocaleDateString('pt-BR',{
@@ -438,13 +496,8 @@ function fmtDate(iso){
   });
 }
 function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-let _tt;
-function toast(m){
-  const el=document.getElementById('toast');
-  el.textContent=m; el.classList.add('show');
-  clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),3000);
-}
-document.addEventListener('keydown', e => { if(e.key==='Enter' && document.getElementById('overlay').style.display!=='none') auth(); });
+
+init();
 </script>
 </body>
 </html>
