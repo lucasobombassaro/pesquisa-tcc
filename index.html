@@ -404,9 +404,9 @@
 const SB_URL  = 'https://wehpbpczgjxhjievamnz.supabase.co';
 const SB_KEY  = 'sb_publishable_bY-yOvgZcZ3QM0MUjZxUlg_9onwMIvT';
 const ADM_PW  = 'tcc2025puc';
-const ADMIN_PW = 'Lucas&Luiza';
+const ADMIN_PW = 'Lucas' + String.fromCharCode(38) + 'Luiza';
 function adminAuth(){
-  if(document.getElementById('admin-pw').value===ADMIN_PW){
+  if(document.getElementById('admin-pw').value.trim()===ADMIN_PW){
     window.location.href='/admin';
   } else {
     document.getElementById('admin-pw-err').style.display='block';
